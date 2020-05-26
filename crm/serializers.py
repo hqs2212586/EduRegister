@@ -11,13 +11,27 @@ class SchoolSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class AcademySerializer(serializers.ModelSerializer):
+class SiteSerializer(serializers.ModelSerializer):
     # SerializerMethodField使用，获取显示外联字段
     school_info = serializers.SerializerMethodField(read_only=True)
 
     def get_school_info(self, obj):
-        school_obj = obj.school   # 正向查询
-        return {"id": school_obj.id}
+        print('学校信息', obj)
+        school_obj = obj.schools
+        return {"nid": school_obj.nid, "title": school_obj.title}
+
+    class Meta:
+        model = models.Site
+        fields = "__all__"
+
+class AcademySerializer(serializers.ModelSerializer):
+    # SerializerMethodField使用，获取显示外联字段
+    site_info = serializers.SerializerMethodField(read_only=True)
+
+    def get_site_info(self, obj):
+        print("站点信息", obj)
+        site_obj = obj.site   # 正向查询
+        return {"id": site_obj.nid, "title": site_obj.title}
 
     class Meta:
         model = models.Academy

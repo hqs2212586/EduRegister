@@ -30,6 +30,19 @@ class School(models.Model):
     def __str__(self):
         return self.title
 
+class Site(models.Model):
+    """站点表"""
+    nid = models.AutoField(primary_key=True)
+    title = models.CharField(verbose_name="站点名称", max_length=32, help_text="必填")
+    schools = models.ForeignKey(to=School, to_field="nid", on_delete=models.CASCADE)
+    create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+
+    class Meta:
+        verbose_name = "站点表"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
 
 class Academy(models.Model):
     """院系表"""
@@ -37,7 +50,7 @@ class Academy(models.Model):
     title = models.CharField(verbose_name="院系名称", max_length=32, help_text="必填")
     # 与学校建立一对多关系，外键字段建立在多的一方
     # to_field:指定当前关系与被关联对象中的哪个字段关联
-    school = models.ForeignKey(to=School, to_field="nid", on_delete=models.CASCADE)
+    site = models.ForeignKey(to=Site, to_field="nid", on_delete=models.CASCADE)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
 
     class Meta:

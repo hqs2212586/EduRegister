@@ -70,8 +70,6 @@ class UserView(APIView):
         # 这里要根据用户角色来获取
 
 
-
-
         # 通过ORM操作获取所有分类数据
         queryset = models.Account.objects.all()
         # 利用DRF序列化器去序列化数据

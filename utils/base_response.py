@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Qiushi Huang'
 
+# 自定义统一封装Response
+
 
 class BaseResponse(object):
     def __init__(self):
