@@ -19,9 +19,9 @@ class School(models.Model):
     """学校表"""
     nid = models.AutoField(primary_key=True)
     title = models.CharField(verbose_name="院校", max_length=32, unique=True, help_text="必填")
-    logo = models.ImageField(upload_to="school/%Y-%m",
-                             verbose_name="学校LOGO", help_text="必填")    # 上传图片路径，以年月划分文件夹
+    logo = models.CharField(verbose_name="LOGO", max_length=255, help_text="必填")
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
 
     class Meta:
         verbose_name = "学校表"
@@ -36,6 +36,7 @@ class Site(models.Model):
     title = models.CharField(verbose_name="站点名称", max_length=32, help_text="必填")
     schools = models.ForeignKey(to=School, to_field="nid", on_delete=models.CASCADE)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
 
     class Meta:
         verbose_name = "站点表"
@@ -52,6 +53,7 @@ class Academy(models.Model):
     # to_field:指定当前关系与被关联对象中的哪个字段关联
     site = models.ForeignKey(to=Site, to_field="nid", on_delete=models.CASCADE)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
 
     class Meta:
         verbose_name = "院系表"
@@ -68,6 +70,7 @@ class Major(models.Model):
     # 专业与学院建立多对一关系
     academies = models.ForeignKey(verbose_name="院系", to="Academy", to_field="nid", on_delete=None)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
 
     class Meta:
         unique_together = ('title', 'academies')   # 专业与学院联合唯一
@@ -77,6 +80,22 @@ class Major(models.Model):
     def __str__(self):
         return self.title
 
+
+class Grade(models.Model):
+    """入学学年表"""
+    nid = models.AutoField(primary_key=True)
+    schools = models.ForeignKey(to=School, to_field="nid", on_delete=models.CASCADE)
+    title = models.CharField(verbose_name="年级名称", max_length=255, help_text="必填")
+    create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
+
+    class Meta:
+        unique_together = ("title", "schools")
+        verbose_name = "入学学年表"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
 
 class Student(models.Model):
     """学生表"""
@@ -98,6 +117,7 @@ class Student(models.Model):
     majors = models.ManyToManyField(verbose_name='报读专业', to='Major', help_text="必填")
     # auto_now_add：创建时间不用复制，默认使用当前时间赋值
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
     # 学生状态
     status_choices = (
         (0, "未审核"),
@@ -105,8 +125,8 @@ class Student(models.Model):
         (2, "审核拒绝")
     )
     student_status = models.IntegerField(choices=status_choices, default=0)
-    # 招生老师
-    users = models.ForeignKey(verbose_name="验证码", to="UserInfo", to_field='nid',
+    grades = models.ForeignKey(verbose_name="入学学年", to=Grade, to_field="nid", on_delete=models.CASCADE)
+    users = models.ForeignKey(verbose_name="招生老师", to="UserInfo", to_field='nid',
                                    on_delete=models.CASCADE, help_text='必填')
     # 备注
     memo = models.CharField(verbose_name="备注", blank=True, null=True, max_length=128, help_text="选填")
@@ -121,7 +141,7 @@ class Student(models.Model):
 
 class UserInfo(models.Model):
     """
-    员工表
+    员工信息表
     """
     nid = models.AutoField(primary_key=True)
     code = models.CharField(verbose_name="验证码", max_length=16, help_text='必填')
@@ -135,10 +155,10 @@ class UserInfo(models.Model):
     )
     gender = models.SmallIntegerField(verbose_name="性别", choices=gender_choices, help_text="必填")
     identity_num = models.CharField(verbose_name='身份证号', max_length=18, help_text='必填')
-    avatar = models.ImageField(upload_to="user/%user/%Y-%m", verbose_name='用户头像')
     # 模仿 SQL 约束 ON DELETE CASCADE 的行为，换句话说，删除一个对象时也会删除与它相关联的外键对象
     academies = models.ForeignKey(verbose_name="院系", to="Academy", to_field="nid", on_delete=None)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
     # 员工表Userinfo与rbac.User表做一对一关联
     user = models.OneToOneField(to=Account, to_field="nid", null=True, on_delete=models.CASCADE)
 

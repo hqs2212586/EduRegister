@@ -135,6 +135,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 # Media配置
 MEDIA_URL = "media/"      # 静态资源路径
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
