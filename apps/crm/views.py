@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.versioning import URLPathVersioning   # 在url上携带版本信息
 from rest_framework import status              # 描述HTTP状态码，用于代码可读性
-from utils.redis_pool import POOL
 from .serializers import *
 from . import models
 

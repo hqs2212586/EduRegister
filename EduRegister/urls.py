@@ -23,7 +23,7 @@ from EduRegister import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     # 基于url显示版本信息
-    url(r'^api/(?P<version>[v1|v2]+)/crm/', include("crm.urls")),
+    url(r'^api/(?P<version>[v1|v2]+)/crm/', include("apps.crm.urls")),
     url(r'^api/(?P<version>[v1|v2]+)/accounts/', include("accounts.urls")),
 
 

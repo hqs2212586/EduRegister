@@ -12,9 +12,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import sys
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -25,7 +27,7 @@ SECRET_KEY = 'q9maqx2g#lr=gg3wyw0k2boe_m8$l@eep*vtq(p362xuj=vqr7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'crm.apps.CrmConfig',
-    'accounts.apps.AccountConfig',
+    'rbac',
+    'crm'
 ]
 
 MIDDLEWARE = [
@@ -119,15 +121,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -142,7 +144,79 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 REST_FRAMEWORK = {
     # "DEFAULT_AUTHENTICATION_CLASSES": ["utils.my_auth.LoginAuth"],    # 全局视图认证
-    "ALLOWED_VERSIONS": ["v1", "v2"],  # 允许的版本
-    "VERSION_PARAM": "version",        # 版本使用的参数名称
-    "DEFAULT_VERSION": "v1",           # 默认使用的版本
+    # "ALLOWED_VERSIONS": ["v1", "v2"],  # 允许的版本
+    # "VERSION_PARAM": "version",        # 版本使用的参数名称
+    # "DEFAULT_VERSION": "v1",           # 默认使用的版本
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',    # 全局jwt
+        'rest_framework.authentication.BasicAuthentication',        # username和password形式认证
+        'rest_framework.authentication.SessionAuthentication',      #
+    ),
+    # 自定义异常处理
+    'EXCEPTION_HANDLER': 'apps.common.custom.crm_exception_handler'
+}
+
+# jwt 设置
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),             # token过期时间是7天
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+}
+
+# redis设置
+REDIS_HOST = "localhost"
+REDIS_PORT = 6379
+REDIS_DB = 0
+REDIS_PASSWORD = None
+
+# 日志
+BASE_LOG_DIR = os.path.join(BASE_DIR, 'logs')
+
+LOGGING = {
+'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '[%(asctime)s][%(levelname)s]''[%(filename)s:%(lineno)d][%(message)s]'
+        },
+        'simple': {
+            'format': '[%(levelname)s][%(asctime)s]%(message)s'
+        },
+
+    },
+    'handlers': {
+        'default': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_LOG_DIR, "info_sys.log"),
+            'maxBytes': 1024 * 1024 * 50,
+            'backupCount': 3,
+            'formatter': 'simple',
+            'encoding': 'utf-8',
+        },
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_LOG_DIR, "err_sys.log"),
+            'backupCount': 5,
+            'formatter': 'standard',
+            'encoding': 'utf-8',
+        }
+
+    },
+    'loggers': {
+        'info': {
+            'handlers': ['default'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'warn':{
+            'handlers': ['default'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'error': {
+            'handlers': ['error'],
+            'level': 'ERROR',
+        }
+    }
 }
