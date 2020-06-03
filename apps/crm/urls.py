@@ -1,21 +1,20 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Qiushi Huang'
 
-from django.conf.urls import url
-from rest_framework.urlpatterns import format_suffix_patterns
-from .views import *
+from django.urls import path,include
+from crm.views import school, site, train_type, grade, student
+from rest_framework import routers
 
+
+router = routers.SimpleRouter()
+# register() 方法有两个强制参数：prefix：用于此组路由的URL前缀；viewset：处理请求的viewset类
+router.register(r"schools", school.SchoolViewSet, base_name="schools")
+router.register(r"sites", site.SiteViewSet, base_name="sites")
+router.register(r"train_types", train_type.TrainTypeViewSet, base_name="train_types")
+router.register(r"grades", grade.GradeViewSet, base_name="grades")
+router.register(r"students", student.StudentViewSet, base_name="students")
 
 urlpatterns = [
-    url(r'^schools/$', SchoolListView.as_view()),
-    url(r'^schools/(?P<pk>[0-9]+)/$', SchoolDetailView.as_view()),
-    url(r'^sites/$', SiteListView.as_view()),
-    url(r'^sites/(?P<pk>[0-9]+)/$', SiteDetailView.as_view()),
-    url(r'^academies/$', AcademyView.as_view()),
-    url(r'^academies/(?P<pk>[0-9]+)/$', AcademyDetailView.as_view()),
-    url(r'^major/$', MajorView.as_view()),
-    url(r'^students/$', StudentsView.as_view()),
-    url(r'^student/(?P<pk>\d+)/$', StudentView.as_view())
+    path(r'api/', include(router.urls)),
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)

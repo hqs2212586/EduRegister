@@ -18,14 +18,16 @@ from django.urls import path, include, re_path
 from django.conf.urls import url, include
 from django.views.static import serve
 from EduRegister import settings
+from rest_framework.documentation import include_docs_urls    # 自动接口文档路由对应视图
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # 基于url显示版本信息
-    url(r'^api/(?P<version>[v1|v2]+)/crm/', include("apps.crm.urls")),
-    url(r'^api/(?P<version>[v1|v2]+)/accounts/', include("accounts.urls")),
+    path(r'', include("crm.urls")),
+    path(r'', include("rbac.urls")),
 
+    # 总路由中添加接口文档路径
+    path('docs/', include_docs_urls()),
 
     # media路径配置
     re_path('media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT})

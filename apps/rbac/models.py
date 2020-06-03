@@ -48,8 +48,7 @@ class Organization(models.Model):
     """组织架构"""
     organization_type_choices = (
         ("school", "学校"),
-        ("site", "站点"),
-        ("department", "部门")
+        ("site", "站点")
     )
     name = models.CharField(max_length=60, verbose_name="名称")
     type = models.CharField(max_length=20, choices=organization_type_choices, default="site", verbose_name="类型")
