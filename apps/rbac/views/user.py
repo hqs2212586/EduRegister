@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import check_password
 from ..serializers.user_serializer import UserListSerializer, UserCreateSerializer, UserModifySerializer, UserInfoListSerializer
 from ..serializers.menu_serializer import MenuSerializer
 from rest_framework.generics import ListAPIView
-from commnon.custom import CommonPagination, RbacPermission
+from utils.custom import CommonPagination, RbacPermission
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.views import APIView

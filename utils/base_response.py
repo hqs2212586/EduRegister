@@ -4,19 +4,30 @@ __author__ = 'Qiushi Huang'
 # 自定义统一封装Response
 from django.utils import six
 from rest_framework.response import Response
-from utils.constant import CODE_SUCCESS, MSG_SUCCESS
-from rest_framework import status
+from rest_framework.serializers import Serializer
+
 
 class BaseResponse(Response):
-    def __init__(self, code=CODE_SUCCESS, message=MSG_SUCCESS, data={}, status=status.HTTP_200_OK,
-                 template_name=None, headers=None, exception=False,
-                 content_type=None):    # 未来看是否设为：'application/json'
-        super(Response, self).__init__(None, status=status)
-        self._code = code
-        self._message = message
-        self._data = data
+    def __init__(self, data=None, status=200, msg='成功',
+                 template_name=None, headers=None,
+                 exception=False, content_type=None):
 
-        self.data = {"code": code, "message": message, "data": data}
+        super(Response, self).__init__(None, status=status)
+
+        if isinstance(data, Serializer):
+            msg = (
+                'You passed a Serializer instance as data, but '
+                'probably meant to pass serialized `.data` or '
+                '`.error`. representation.'
+            )
+            raise AssertionError(msg)
+        if status >= 400:
+            msg = '失败'
+        self.data = {
+            'code': status,
+            'message': msg,
+            'detail': data
+        }
         self.template_name = template_name
         self.exception = exception
         self.content_type = content_type
@@ -24,27 +35,3 @@ class BaseResponse(Response):
         if headers:
             for name, value in six.iteritems(headers):
                 self[name] = value
-
-    @property
-    def code(self):
-        return self._code
-
-    @code.setter
-    def code(self, value):
-        self._code = value
-
-    @property
-    def message(self):
-        return self._message
-
-    @message.setter
-    def message(self, value):
-        self._message = value
-
-    @property
-    def data(self):
-        return self._data
-
-    @data.setter
-    def data(self, value):
-        self._data = value

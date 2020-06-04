@@ -9,10 +9,10 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
-from common.custom import CommonPagination, RbacPermission
+from utils.custom import CommonPagination, RbacPermission
 from utils.base_response import BaseResponse
 from utils.code import NO_CONTENT
-from ..serializers.grade_serializer import StudentInfoSerializer, StudentInfoListSerializer, StudentListSerializer
+from ..serializers.student_serializer import StudentInfoSerializer, StudentListSerializer
 from ..models import StudentInfo
 
 
@@ -31,11 +31,11 @@ class StudentInfoViewSet(ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (RbacPermission,)
 
-    def get_serializer_class(self):
-        # 根据请求类型动态变更serializer
-        if self.action == 'list':
-            return StudentInfoListSerializer
-        return StudentInfoSerializer
+    # def get_serializer_class(self):
+    #     # 根据请求类型动态变更serializer
+    #     if self.action == 'list':
+    #         return StudentInfoSerializer
+    #     return StudentListSerializer
 
     def destroy(self, request, *args, **kwargs):
         # 删除其他关联资产的数据

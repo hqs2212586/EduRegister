@@ -14,6 +14,33 @@ blank=True：创建数据库记录时该字段可传空白
 unique=True：这个数据字段的值在整张表中必须是唯一的
 """
 
+class AbstractMode(models.Model):
+    pid = models.ForeignKey(
+        'self', blank=True, null=True, on_delete=models.SET_NULL, related_name='child'
+    )
+
+    class Meta:
+        abstract = True
+
+
+class Dict(AbstractMode):
+    key = models.CharField(max_length=80, verbose_name='键')
+    value = models.CharField(max_length=80, verbose_name='值')
+    desc = models.CharField(max_length=255, blank=True, null=True, verbose_name='备注')
+
+    class Meta:
+        verbose_name = '字典'
+        verbose_name_plural = verbose_name
+
+
+class TimeAbstract(models.Model):
+    add_time = models.DateTimeField(auto_now_add=True, verbose_name="添加时间")
+    modify_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
+
+    class Meta:
+        abstract = True
+
+
 class SchoolInfo(models.Model):
     """学校表"""
     title = models.CharField(verbose_name="院校", max_length=32, unique=True, help_text="必填")
@@ -30,8 +57,8 @@ class SchoolInfo(models.Model):
 
 class SiteInfo(models.Model):
     """站点表"""
-    title = models.CharField(verbose_name="站点名称", max_length=32, help_text="必填")
-    schools = models.ForeignKey(to=School, to_field="nid", on_delete=models.CASCADE)
+    title = models.CharField(verbose_name="站点名称", max_length=32, help_text="必填", unique=True)
+    schools = models.ForeignKey(to=SchoolInfo, to_field="title", on_delete=models.CASCADE)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
     update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
 
@@ -45,12 +72,12 @@ class SiteInfo(models.Model):
 
 class TrainTypeInfo(models.Model):
     """培养类型表"""
-    title = models.CharField(verbose_name="培养类型", max_length=32, help_text="必填")
+    title = models.CharField(verbose_name="培养类型", max_length=32, help_text="必填", unique=True)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
     update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
 
     class Meta:
-        verbose_name = "专业表"
+        verbose_name = "培养类型"
         verbose_name_plural = verbose_name
 
     def __str__(self):
@@ -58,19 +85,21 @@ class TrainTypeInfo(models.Model):
 
 
 class GradeInfo(models.Model):
-    """入学学年表"""
-    title = models.CharField(verbose_name="年级名称", max_length=255, help_text="必填")
+    """年级/招生批次"""
+    title = models.CharField(verbose_name="年级名称", max_length=255, help_text="必填", unique=True)
     status_choices = (
         (0, "之前学年"),
         (1, "当前学年"),
         (2, "未来学年")
     )
+    schools = models.ForeignKey(to=SchoolInfo, to_field="title", on_delete=models.CASCADE)
+    begin_time = models.DateTimeField(verbose_name="开始时间", blank=True, null=True, default=None)
+    end_time = models.DateTimeField(verbose_name="结束时间", blank=True, null=True, default=None)
     status = models.SmallIntegerField(verbose_name="学年状态", choices=status_choices, help_text="必填")
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
     update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
 
     class Meta:
-        unique_together = ("title", "schools")
         verbose_name = "入学学年表"
         verbose_name_plural = verbose_name
 
@@ -103,8 +132,8 @@ class StudentInfo(models.Model):
         (2, "审核拒绝")
     )
     student_status = models.IntegerField(choices=status_choices, default=0)
-    grades = models.ForeignKey(verbose_name="入学学年", to=Grade, to_field="nid", on_delete=models.CASCADE)
-    sites = models.ForeignKey(verbose_name="招生站点", to="Site", to_field='nid',
+    grades = models.ForeignKey(verbose_name="入学学年", to=GradeInfo, to_field="title", on_delete=models.CASCADE)
+    sites = models.ForeignKey(verbose_name="招生站点", to=SiteInfo, to_field='title',
                                    on_delete=models.CASCADE, help_text='必填')
     # 备注
     memo = models.CharField(verbose_name="备注", blank=True, null=True, max_length=128, help_text="选填")

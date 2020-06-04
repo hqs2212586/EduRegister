@@ -5,7 +5,7 @@ __author__ = 'Qiushi Huang'
 from rest_framework.viewsets import ModelViewSet
 from ..models import Organization
 from ..serializers.organization_serializer import OrganizationSerializer, OrganizationUserTreeSerializer
-from common.custom import CommonPagination, RbacPermission, TreeAPIView
+from utils.custom import CommonPagination, RbacPermission, TreeAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.views import APIView

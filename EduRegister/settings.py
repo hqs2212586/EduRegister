@@ -40,11 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
+    'corsheaders',       # 引入django-cors-headers解决跨域
     'rbac',
     'crm'
 ]
 
 MIDDLEWARE = [
+    # 'utils.cors.CORSMiddleware',
+    'corsheaders.middleware.CorsMiddleware',         # 跨域添加到中间件
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,8 +56,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'utils.cors.CORSMiddleware'
 ]
+
+# CORS跨域设置
+CORS_ORIGIN_ALLOW_ALL = True    # 全允许
 
 ROOT_URLCONF = 'EduRegister.urls'
 
@@ -131,6 +137,8 @@ USE_L10N = True
 
 USE_TZ = False
 
+# Django继承AbstractUser新建User,需要在setting中重载AUTH_USER_MODEL
+AUTH_USER_MODEL = 'rbac.UserProfile'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -153,7 +161,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',      #
     ),
     # 自定义异常处理
-    'EXCEPTION_HANDLER': 'apps.common.custom.crm_exception_handler'
+    'EXCEPTION_HANDLER': 'utils.custom.crm_exception_handler'
 }
 
 # jwt 设置
