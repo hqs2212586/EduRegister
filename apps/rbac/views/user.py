@@ -24,7 +24,7 @@ from django.db.models import Q
 import jwt
 
 
-jwt_payload_handler = api_settings.JWT_ENCODE_HANDLER
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 
@@ -36,7 +36,7 @@ class UserAuthView(APIView):
         user = authenticate(username=username, password=password)
         if user:
             payload = jwt_payload_handler(user)
-            return BaseResponse({'token': jwt.encode(payload, SECRET_KEY)}, STATUS=OK)
+            return BaseResponse({'token': jwt.encode(payload, SECRET_KEY)},status=OK)
         else:
             return BaseResponse('用户名或密码！', status=BAD)
 
@@ -60,7 +60,7 @@ class UserInfoView(APIView):
             data = {
                 'id': request.user.id,
                 'username': request.user.username,
-                'avatar': request._request._current_scheme_host + '/media/' + str(request.user.image),
+                'avatar': request._request._current_scheme_host + '/media/' + str(request.user.avatar),
                 'email': request.user.email,
                 'is_active': request.user.is_active,
                 'createTime': request.user.date_joined,
