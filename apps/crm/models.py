@@ -3,6 +3,7 @@ __author__ = 'Qiushi Huang'
 
 from datetime import datetime
 from django.db import models
+from rbac.models import Organization
 
 
 __all__ = ["SchoolInfo", "SiteInfo", "TrainTypeInfo", "GradeInfo", "StudentInfo"]
@@ -47,6 +48,7 @@ class SchoolInfo(models.Model):
     logo = models.CharField(verbose_name="LOGO", max_length=255, help_text="必填")
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
     update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
+    organization = models.ForeignKey(to=Organization, to_field="name", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "学校表"
@@ -61,6 +63,7 @@ class SiteInfo(models.Model):
     schools = models.ForeignKey(to=SchoolInfo, to_field="title", on_delete=models.CASCADE)
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
     update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
+    organization = models.ForeignKey(to=Organization, to_field="name", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "站点表"
@@ -118,8 +121,7 @@ class StudentInfo(models.Model):
     birth_place = models.CharField(verbose_name='籍贯', max_length=64, default='身份证上:xx省xx市', help_text='必填')
     identity_num = models.CharField(verbose_name='身份证号', max_length=18, help_text='必填')
     address = models.CharField(verbose_name='常用住址', max_length=128, help_text='必填')
-    tel = models.CharField(verbose_name='联系电话1', max_length=11, help_text='必填')
-    tel_2 = models.CharField(verbose_name='联系电话2', max_length=11, help_text='选填', null=True, blank=True)
+    tel = models.CharField(verbose_name='手机号', max_length=11, help_text='必填')
     # 报读专业
     majors = models.CharField(verbose_name='报读专业', max_length=64, help_text="必填")
     # auto_now_add：创建时间不用复制，默认使用当前时间赋值
@@ -131,7 +133,7 @@ class StudentInfo(models.Model):
         (1, "审核通过"),
         (2, "审核拒绝")
     )
-    student_status = models.IntegerField(choices=status_choices, default=0)
+    student_status = models.IntegerField(choices=status_choices, default=0, verbose_name="学生状态")
     grades = models.ForeignKey(verbose_name="入学学年", to=GradeInfo, to_field="title", on_delete=models.CASCADE)
     sites = models.ForeignKey(verbose_name="招生站点", to=SiteInfo, to_field='title',
                                    on_delete=models.CASCADE, help_text='必填')

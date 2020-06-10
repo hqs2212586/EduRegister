@@ -44,7 +44,7 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/1' # Backend设置，使用redis
 4、登陆MYSQL，创建数据库
 
 ```
-CREATE DATABASE rest_xops DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE eduRegister DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 
 5、执行创建表信息

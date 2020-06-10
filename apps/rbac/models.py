@@ -52,7 +52,7 @@ class Organization(models.Model):
         ("school", "学校"),
         ("site", "站点")
     )
-    name = models.CharField(max_length=60, verbose_name="名称")
+    name = models.CharField(max_length=60, verbose_name="名称", unique=True)
     type = models.CharField(max_length=20, choices=organization_type_choices, default="site", verbose_name="类型")
     pid = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="父类组织")
 

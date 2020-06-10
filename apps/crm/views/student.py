@@ -25,8 +25,8 @@ class StudentInfoViewSet(ModelViewSet):
     serializer_class = StudentInfoSerializer
     pagination_class = CommonPagination
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filter_fields = ('title',)
-    search_fields = ('title',)
+    filter_fields = ('name',)
+    search_fields = ('name',)
     ordering_fields = ('id',)
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (RbacPermission,)
@@ -59,7 +59,7 @@ class StudentListView(ListAPIView):
     queryset = StudentInfo.objects.all()
     serializer_class = StudentListSerializer
     filter_backends = (DjangoFilterBackend, OrderingFilter)
-    filter_fields = ('title',)
+    filter_fields = ('name',)
     ordering_fields = ('id', )
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)

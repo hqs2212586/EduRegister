@@ -17,7 +17,7 @@ router.register(r'roles', role.RoleViewSet, base_name="roles")
 router.register(r'dicts', dict.DictViewSet, base_name="dicts")
 
 urlpatterns = [
-    path(r'api', include(router.urls)),
+    path(r'api/', include(router.urls)),
     path(r'auth/login/', user.UserAuthView.as_view()),
     path(r'auth/info/', user.UserInfoView.as_view(), name="user_info"),
     path(r'auth/build/menus/', organization.OrganizationTreeView.as_view(), name="build_menus"),

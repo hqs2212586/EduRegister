@@ -15,7 +15,7 @@ class UserListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['id', 'username', 'name', 'mobile', 'email', 'image',
+        fields = ['id', 'username', 'name', 'mobile', 'email', 'avatar',
                   'department', 'position', 'superior', 'is_active','roles']
         depth = 1
 
@@ -32,7 +32,7 @@ class UserModifySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['id', 'username', 'name', 'mobile', 'email', 'image',
+        fields = ['id', 'username', 'name', 'mobile', 'email', 'avatar',
                   'department', 'position', 'superior', 'is_active', 'roles']
 
 
