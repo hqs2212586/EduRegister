@@ -36,6 +36,9 @@ class OrganizationTreeView(TreeAPIView):
 
 
 class OrganizationUserTreeView(APIView):
+    '''
+    组织架构关联用户树
+    '''
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 

@@ -44,7 +44,7 @@ class UserAuthView(APIView):
 class UserInfoView(APIView):
     """获取当前用户信息和权限"""
     @classmethod
-    def get_permissions_from_role(self, request):
+    def get_permission_from_role(self, request):
         try:
             if request.user:
                 perms_list = []
@@ -56,7 +56,7 @@ class UserInfoView(APIView):
 
     def get(self, request):
         if request.user.id is not None:
-            perms = self.get_permissions_from_role(request)
+            perms = self.get_permission_from_role(request)
             data = {
                 'id': request.user.id,
                 'username': request.user.username,
@@ -168,8 +168,10 @@ class UserBuildMenuView(APIView):
 
             return menu_dict
 
-    def get_all_menu_dic(self):
-        """获取所有菜单数据，重组结构"""
+    def get_all_menu_dict(self):
+        '''
+        获取所有菜单数据，重组结构
+        '''
         menus = Menu.objects.all()
         serializer = MenuSerializer(menus, many=True)
         tree_dict = {}
@@ -253,12 +255,10 @@ class UserBuildMenuView(APIView):
         return tree_dict
 
     def get_all_menus(self, request):
-        """获取所有的菜单"""
-        perms = UserInfoView.get_permissions_from_role(request)
+        perms = UserInfoView.get_permission_from_role(request)
         tree_data = []
         if 'admin' in perms or request.user.is_superuser:
-            # 获取所有菜单数据、结构
-            tree_dict = self.get_all_menu_dic()
+            tree_dict = self.get_all_menu_dict()
         else:
             # 获取角色菜单信息
             tree_dict = self.get_menu_from_role(request)

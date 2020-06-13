@@ -15,25 +15,6 @@ blank=True：创建数据库记录时该字段可传空白
 unique=True：这个数据字段的值在整张表中必须是唯一的
 """
 
-class AbstractMode(models.Model):
-    pid = models.ForeignKey(
-        'self', blank=True, null=True, on_delete=models.SET_NULL, related_name='child'
-    )
-
-    class Meta:
-        abstract = True
-
-
-class Dict(AbstractMode):
-    key = models.CharField(max_length=80, verbose_name='键')
-    value = models.CharField(max_length=80, verbose_name='值')
-    desc = models.CharField(max_length=255, blank=True, null=True, verbose_name='备注')
-
-    class Meta:
-        verbose_name = '字典'
-        verbose_name_plural = verbose_name
-
-
 class TimeAbstract(models.Model):
     add_time = models.DateTimeField(auto_now_add=True, verbose_name="添加时间")
     modify_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
@@ -42,13 +23,11 @@ class TimeAbstract(models.Model):
         abstract = True
 
 
-class SchoolInfo(models.Model):
+class SchoolInfo(TimeAbstract):
     """学校表"""
     title = models.CharField(verbose_name="院校", max_length=32, unique=True, help_text="必填")
-    logo = models.CharField(verbose_name="LOGO", max_length=255, help_text="必填")
-    create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
-    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
-    organization = models.ForeignKey(to=Organization, to_field="name", on_delete=models.CASCADE)
+    logo = models.ImageField(verbose_name="LOGO",upload_to="school/%title", default="school/default_logo.png", help_text="必填")
+    organization = models.ForeignKey(to=Organization, to_field="id", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "学校表"
@@ -57,12 +36,10 @@ class SchoolInfo(models.Model):
     def __str__(self):
         return self.title
 
-class SiteInfo(models.Model):
+class SiteInfo(TimeAbstract):
     """站点表"""
     title = models.CharField(verbose_name="站点名称", max_length=32, help_text="必填", unique=True)
     schools = models.ForeignKey(to=SchoolInfo, to_field="title", on_delete=models.CASCADE)
-    create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
-    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
     organization = models.ForeignKey(to=Organization, to_field="name", on_delete=models.CASCADE)
 
     class Meta:
@@ -73,11 +50,9 @@ class SiteInfo(models.Model):
         return self.title
 
 
-class TrainTypeInfo(models.Model):
+class TrainTypeInfo(TimeAbstract):
     """培养类型表"""
     title = models.CharField(verbose_name="培养类型", max_length=32, help_text="必填", unique=True)
-    create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
-    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
 
     class Meta:
         verbose_name = "培养类型"
@@ -87,7 +62,7 @@ class TrainTypeInfo(models.Model):
         return self.title
 
 
-class GradeInfo(models.Model):
+class GradeInfo(TimeAbstract):
     """年级/招生批次"""
     title = models.CharField(verbose_name="年级名称", max_length=255, help_text="必填", unique=True)
     status_choices = (
@@ -99,8 +74,6 @@ class GradeInfo(models.Model):
     begin_time = models.DateTimeField(verbose_name="开始时间", blank=True, null=True, default=None)
     end_time = models.DateTimeField(verbose_name="结束时间", blank=True, null=True, default=None)
     status = models.SmallIntegerField(verbose_name="学年状态", choices=status_choices, help_text="必填")
-    create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
-    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
 
     class Meta:
         verbose_name = "入学学年表"
@@ -109,7 +82,7 @@ class GradeInfo(models.Model):
     def __str__(self):
         return self.title
 
-class StudentInfo(models.Model):
+class StudentInfo(TimeAbstract):
     """学生表"""
     name = models.CharField(verbose_name="姓名", max_length=48)
     gender_choices = (
@@ -124,9 +97,6 @@ class StudentInfo(models.Model):
     tel = models.CharField(verbose_name='手机号', max_length=11, help_text='必填')
     # 报读专业
     majors = models.CharField(verbose_name='报读专业', max_length=64, help_text="必填")
-    # auto_now_add：创建时间不用复制，默认使用当前时间赋值
-    create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
-    update_time = models.DateTimeField(verbose_name="更新时间", auto_now=True)
     # 学生状态
     status_choices = (
         (0, "未审核"),

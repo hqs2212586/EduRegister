@@ -45,6 +45,13 @@ class Role(models.Model):
     menus = models.ManyToManyField("Menu", blank=True, verbose_name="菜单")
     desc = models.CharField(max_length=50, blank=True, null=True, verbose_name="描述")
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = '角色'
+        verbose_name_plural = verbose_name
+
 
 class Organization(models.Model):
     """组织架构"""
@@ -69,8 +76,7 @@ class UserProfile(AbstractUser):
     name = models.CharField(max_length=20, default="", verbose_name="姓名")
     mobile = models.CharField(max_length=11, default="", verbose_name="手机号码")
     email = models.EmailField(max_length=50, verbose_name="邮箱")
-    avatar = models.ImageField(upload_to="static/%Y/%m", default="image/default.png",
-                              max_length=100, null=True, blank=True)
+    avatar = models.ImageField(upload_to="avatar/%Y-%m", default="avatar/default.png", verbose_name="头像")
     department = models.ForeignKey("Organization", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="部门")
     position = models.CharField(max_length=50, null=True, blank=True, verbose_name="职位")
     superior = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="上级主管")
