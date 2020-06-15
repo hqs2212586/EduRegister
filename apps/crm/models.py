@@ -39,8 +39,8 @@ class SchoolInfo(TimeAbstract):
 class SiteInfo(TimeAbstract):
     """站点表"""
     title = models.CharField(verbose_name="站点名称", max_length=32, help_text="必填", unique=True)
-    schools = models.ForeignKey(to=SchoolInfo, to_field="title", on_delete=models.CASCADE)
-    organization = models.ForeignKey(to=Organization, to_field="name", on_delete=models.CASCADE)
+    schools = models.ForeignKey(to=SchoolInfo, to_field="id", on_delete=models.CASCADE)
+    organization = models.ForeignKey(to=Organization, to_field="id", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "站点表"

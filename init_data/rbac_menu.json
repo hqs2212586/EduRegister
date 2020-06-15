@@ -1,0 +1,8 @@
+[
+    {"model": "rbac.menu", "pk": 1, "fields": {"name": "\u7cfb\u7edf\u7ba1\u7406", "icon": "system", "path": "system", "is_frame": false, "is_show": true, "sort": 0, "component": null, "pid": null}},
+    {"model": "rbac.menu", "pk": 2, "fields": {"name": "\u7528\u6237\u7ba1\u7406", "icon": "user", "path": "users", "is_frame": false, "is_show": true, "sort": 11, "component": "system/user/index", "pid": 1}},
+    {"model": "rbac.menu", "pk": 3, "fields": {"name": "\u83dc\u5355\u7ba1\u7406", "icon": "caidan", "path": "menus", "is_frame": false, "is_show": true, "sort": 12, "component": "system/menu/index", "pid": 1}},
+    {"model": "rbac.menu", "pk": 4, "fields": {"name": "\u89d2\u8272\u7ba1\u7406", "icon": "role", "path": "roles", "is_frame": false, "is_show": true, "sort": 14, "component": "system/role/index", "pid": 1}},
+    {"model": "rbac.menu", "pk": 5, "fields": {"name": "\u6743\u9650\u7ba1\u7406", "icon": "permission", "path": "permissions", "is_frame": false, "is_show": true, "sort": 13, "component": "system/permission/index", "pid": 1}},
+    {"model": "rbac.menu", "pk": 6, "fields": {"name": "\u7ec4\u7ec7\u67b6\u6784", "icon": "zuzhi", "path": "organizations", "is_frame": false, "is_show": true, "sort": 15, "component": "system/organization/index", "pid": 1}}
+]
