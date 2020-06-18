@@ -3,16 +3,6 @@
 
 ***本项目采用以下技术***
 
-前端：
-
-vue 2.5.17
-
-elementUI 2.6.0
-
-websocket
-
-后端：
-
 django 2.1.7
 
 django rest framework 3.9.1
@@ -21,17 +11,16 @@ django rest framework-jwt 1.11.0
 
 django channels 2.1.7
 
-celery 4.2.1
 
 软件运行环境
 
 Python 3.7.1
 
-MySql 5.7
+MySql 5.7.24
 
 操作系统：
 
-CentOS 7
+CentOS 7.5
 
 ***系统更新方式***
 ```
@@ -45,22 +34,7 @@ python manage.py changepassword admin
 
 ***基础环境安装***
 
-1、安装npm运行环境(略)
-
-    安装前端项目依赖包
-    
-    cd xops_qd/
-    npm install
-
-2、修改你的配置文件
-
-    xops_qd/config
-
-    dev.env.js #开发环境
-
-    prod.env.js #生成环境
-
-3、安装mysql依赖
+1、安装mysql依赖
 
 ```bash
 # 1.安装依赖包
@@ -83,7 +57,7 @@ $ tar xf boost_1_59_0.tar.bz2    # 解压
 $ mv boost_1_59_0   /usr/local/boost
 ```
 
-4、安装mysql
+2、安装mysql
 
 ```bash
 # 4.安装mysql
@@ -165,9 +139,9 @@ $ mysql -uroot -pxxxxxx
 
 ```
 
-5、安装redis（略）
+3、安装redis（略）
 
-6、创建python虚拟环境
+4、创建python虚拟环境
 
 ```bash
 # 下载python包
@@ -202,7 +176,6 @@ pyenv virtualenv 3.6.8 rest_xops
 cd 你的项目路径
 pyenv local rest_xops
 ```
-
 
 2、安装项目运行模块
 ```
@@ -239,8 +212,6 @@ vi rest_xops/celery.py
 BROKER_URL = 'redis://localhost:6379/1' # Broker配置，使用Redis作为消息中间件
 
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/1' # Backend设置，使用redis作为后端结果存储
-
-
 ```
 
 

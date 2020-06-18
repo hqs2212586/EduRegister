@@ -3,6 +3,7 @@ __author__ = 'Qiushi Huang'
 
 from datetime import datetime
 from django.db import models
+from EduRegister.settings import MEDIA_ROOT
 from rbac.models import Organization
 
 
@@ -23,10 +24,14 @@ class TimeAbstract(models.Model):
         abstract = True
 
 
+# def upload_to(instance, filename):
+#     """让上传的文件路径动态与模块名有关"""
+#     return '/'.join([MEDIA_ROOT, instance.title, filename])
+
 class SchoolInfo(TimeAbstract):
     """学校表"""
     title = models.CharField(verbose_name="院校", max_length=32, unique=True, help_text="必填")
-    logo = models.ImageField(verbose_name="LOGO",upload_to="school/%title", default="school/default_logo.png", help_text="必填")
+    logo = models.ImageField(verbose_name="LOGO",upload_to="school/upload/", default="school/default_logo.png", help_text="必填")
     organization = models.ForeignKey(to=Organization, to_field="id", on_delete=models.CASCADE)
 
     class Meta:
