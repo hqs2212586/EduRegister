@@ -70,7 +70,7 @@ class GradeInfo(TimeAbstract):
         (1, "当前学年"),
         (2, "未来学年")
     )
-    schools = models.ForeignKey(to=SchoolInfo, to_field="title", on_delete=models.CASCADE)
+    schools = models.ForeignKey(to=SchoolInfo, on_delete=models.CASCADE)
     begin_time = models.DateTimeField(verbose_name="开始时间", blank=True, null=True, default=None)
     end_time = models.DateTimeField(verbose_name="结束时间", blank=True, null=True, default=None)
     status = models.SmallIntegerField(verbose_name="学年状态", choices=status_choices, help_text="必填")
@@ -104,9 +104,8 @@ class StudentInfo(TimeAbstract):
         (2, "审核拒绝")
     )
     student_status = models.IntegerField(choices=status_choices, default=0, verbose_name="学生状态")
-    grades = models.ForeignKey(verbose_name="入学学年", to=GradeInfo, to_field="title", on_delete=models.CASCADE)
-    sites = models.ForeignKey(verbose_name="招生站点", to=SiteInfo, to_field='title',
-                                   on_delete=models.CASCADE, help_text='必填')
+    grades = models.ForeignKey(verbose_name="入学学年", to=GradeInfo, on_delete=models.CASCADE)
+    sites = models.ForeignKey(verbose_name="招生站点", to=SiteInfo, on_delete=models.CASCADE, help_text='必填')
     # 备注
     memo = models.CharField(verbose_name="备注", blank=True, null=True, max_length=128, help_text="选填")
 
