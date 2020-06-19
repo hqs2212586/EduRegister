@@ -2,7 +2,7 @@
 __author__ = 'Qiushi Huang'
 
 from django.urls import path,include
-from crm.views import school, site, train_type, grade, student
+from crm.views import school, site, train_type, grade, student, admit_student
 from rest_framework import routers
 
 
@@ -13,6 +13,7 @@ router.register(r"sites", site.SiteInfoViewSet, base_name="sites")
 router.register(r"train_types", train_type.TrainTypeInfoViewSet, base_name="train_types")
 router.register(r"grades", grade.GradeInfoViewSet, base_name="grades")
 router.register(r"students", student.StudentInfoViewSet, base_name="students")
+router.register(r"admit_students", admit_student.AdmitStudentInfoViewSet, base_name="admit_students")
 
 urlpatterns = [
     path(r'api/crm/', include(router.urls)),
@@ -20,6 +21,7 @@ urlpatterns = [
     path(r'api/crm/sites/list/', site.SiteListView.as_view(), name="site_list"),
     path(r'api/crm/train_types/list/', train_type.TrainTypeListView.as_view(), name="traintype_list"),
     path(r'api/crm/grades/list/', grade.GradeListView.as_view(), name="grade_list"),
-    path(r'api/crm/students/list/', student.StudentListView.as_view(), name="student_list")
+    path(r'api/crm/students/list/', student.StudentListView.as_view(), name="student_list"),
+    path(r'api/crm/admit_students/list/', admit_student.AdmitStudentListView.as_view(), name="admit_student_list")
 ]
 

@@ -18,8 +18,8 @@ from ..models import GradeInfo
 class GradeInfoViewSet(ModelViewSet):
     """学校字典管理：增删改查"""
     perms_map = (
-        {'*': 'admin'}, {'*': 'school_all'}, {'get': 'school_list'}, {'post': 'school_create'},
-        {'put': 'school_edit'}, {'delete': 'school_delete'}, {'get': 'group_list'})
+        {'*': 'admin'}, {'*': 'grade_all'}, {'get': 'grade_list'}, {'post': 'grade_create'},
+        {'put': 'grade_edit'}, {'delete': 'grade_delete'})
     queryset = GradeInfo.objects.all()
     serializer_class = GradeInfoSerializer
     pagination_class = CommonPagination

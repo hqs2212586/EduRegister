@@ -18,8 +18,8 @@ from ..models import TrainTypeInfo
 class TrainTypeInfoViewSet(ModelViewSet):
     """学校字典管理：增删改查"""
     perms_map = (
-        {'*': 'admin'}, {'*': 'school_all'}, {'get': 'school_list'}, {'post': 'school_create'},
-        {'put': 'school_edit'}, {'delete': 'school_delete'}, {'get': 'group_list'})
+        {'*': 'admin'}, {'*': 'traintype_all'}, {'get': 'traintype_list'}, {'post': 'traintype_create'},
+        {'put': 'traintype_edit'}, {'delete': 'traintype_delete'})
     queryset = TrainTypeInfo.objects.all()
     serializer_class = TrainTypeInfoSerializer
     pagination_class = CommonPagination

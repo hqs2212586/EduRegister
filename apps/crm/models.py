@@ -7,7 +7,7 @@ from EduRegister.settings import MEDIA_ROOT
 from rbac.models import Organization
 
 
-__all__ = ["SchoolInfo", "SiteInfo", "TrainTypeInfo", "GradeInfo", "StudentInfo"]
+__all__ = ["SchoolInfo", "SiteInfo", "TrainTypeInfo", "GradeInfo", "StudentInfo", "AdmitStudentInfo"]
 
 
 """
@@ -88,7 +88,7 @@ class GradeInfo(TimeAbstract):
         return self.title
 
 class StudentInfo(TimeAbstract):
-    """学生表"""
+    """报名学生表"""
     name = models.CharField(verbose_name="姓名", max_length=48)
     gender_choices = (
         (0, "男"),
@@ -106,10 +106,12 @@ class StudentInfo(TimeAbstract):
     status_choices = (
         (0, "未审核"),
         (1, "审核通过"),
-        (2, "审核拒绝")
+        (2, "审核拒绝"),
+        (3, "重复")
     )
     student_status = models.IntegerField(choices=status_choices, default=0, verbose_name="学生状态")
-    grades = models.ForeignKey(verbose_name="入学学年", to=GradeInfo, on_delete=models.CASCADE)
+    train_types = models.ForeignKey(verbose_name="培养类型", to=TrainTypeInfo, on_delete=models.CASCADE)
+    grades = models.ForeignKey(verbose_name="招生批次", to=GradeInfo, on_delete=models.CASCADE)
     sites = models.ForeignKey(verbose_name="招生站点", to=SiteInfo, on_delete=models.CASCADE, help_text='必填')
     # 备注
     memo = models.CharField(verbose_name="备注", blank=True, null=True, max_length=128, help_text="选填")
@@ -120,6 +122,38 @@ class StudentInfo(TimeAbstract):
 
     def __str__(self):
         return self.name
+
+
+class AdmitStudentInfo(TimeAbstract):
+    """录取学生表"""
+    lxdh = models.CharField(verbose_name="联系电话", max_length=11)
+    ksh = models.CharField(verbose_name="考生号", max_length=16)
+    syssdm = models.CharField(verbose_name="生源省市代码", max_length=2)
+    xm = models.CharField(verbose_name="姓名", max_length=24)
+    xb = models.CharField(verbose_name="性别", max_length=2)
+    csrq = models.CharField(verbose_name="出生日期", max_length=8)
+    sfzh = models.CharField(verbose_name="身份证号", max_length=18)
+    zzmm = models.CharField(verbose_name="政治面貌", max_length=16)
+    mz = models.CharField(verbose_name="民族", max_length=24)
+    yxdm = models.CharField(verbose_name="院校代码", max_length=5)
+    yxmc = models.CharField(verbose_name="院校名称", max_length=40)
+    zydm = models.CharField(verbose_name="专业代码", max_length=6)
+    zymc = models.CharField(verbose_name="专业名称", max_length=50)
+    cc = models.CharField(verbose_name="层次", max_length=24)
+    xz = models.CharField(verbose_name="学制", max_length=3)
+    xxxs = models.CharField(verbose_name="学习形式", max_length=24)
+    zf = models.CharField(verbose_name="总分", max_length=8)
+    lqnf = models.CharField(verbose_name="录取年份", max_length=4)
+    xgsj = models.CharField(verbose_name="学籍注册", max_length=8)
+    # 对比注册学生表，获取站点信息并关联
+    sites = models.ForeignKey(verbose_name="招生站点", to=SiteInfo, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "录取学生表"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.xm
 
 
 # class UserInfo(models.Model):

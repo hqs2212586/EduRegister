@@ -19,7 +19,7 @@ class SchoolInfoViewSet(ModelViewSet):
     """学校字典管理：增删改查"""
     perms_map = (
         {'*': 'admin'}, {'*': 'school_all'}, {'get': 'school_list'}, {'post': 'school_create'},
-        {'put': 'school_edit'}, {'delete': 'school_delete'}, {'get': 'group_list'})
+        {'put': 'school_edit'}, {'delete': 'school_delete'})
     queryset = SchoolInfo.objects.all()
     serializer_class = SchoolInfoSerializer
     pagination_class = CommonPagination

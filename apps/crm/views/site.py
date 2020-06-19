@@ -18,8 +18,8 @@ from ..models import SiteInfo
 class SiteInfoViewSet(ModelViewSet):
     """学校字典管理：增删改查"""
     perms_map = (
-        {'*': 'admin'}, {'*': 'school_all'}, {'get': 'school_list'}, {'post': 'school_create'},
-        {'put': 'school_edit'}, {'delete': 'school_delete'}, {'get': 'group_list'})
+        {'*': 'admin'}, {'*': 'site_all'}, {'get': 'site_list'}, {'post': 'site_create'},
+        {'put': 'site_edit'}, {'delete': 'site_delete'})
     queryset = SiteInfo.objects.all()
     serializer_class = SiteInfoSerializer
     pagination_class = CommonPagination
