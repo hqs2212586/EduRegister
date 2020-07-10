@@ -244,7 +244,6 @@ ImportError: libmysqlclient.so.18: cannot open shared object file: No such file 
 ln -s /usr/local/mysql/lib/libmysqlclient.so.18 /usr/lib64/libmysqlclient.so.18
 
 
-
 6、修改管理员密码（必须操作）
     
     python3 manage.py changepassword admin

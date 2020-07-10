@@ -4,5 +4,14 @@
     {"model": "rbac.menu", "pk": 3, "fields": {"name": "\u83dc\u5355\u7ba1\u7406", "icon": "caidan", "path": "menus", "is_frame": false, "is_show": true, "sort": 12, "component": "system/menu/index", "pid": 1}},
     {"model": "rbac.menu", "pk": 4, "fields": {"name": "\u89d2\u8272\u7ba1\u7406", "icon": "role", "path": "roles", "is_frame": false, "is_show": true, "sort": 14, "component": "system/role/index", "pid": 1}},
     {"model": "rbac.menu", "pk": 5, "fields": {"name": "\u6743\u9650\u7ba1\u7406", "icon": "permission", "path": "permissions", "is_frame": false, "is_show": true, "sort": 13, "component": "system/permission/index", "pid": 1}},
-    {"model": "rbac.menu", "pk": 6, "fields": {"name": "\u7ec4\u7ec7\u67b6\u6784", "icon": "zuzhi", "path": "organizations", "is_frame": false, "is_show": true, "sort": 15, "component": "system/organization/index", "pid": 1}}
+    {"model": "rbac.menu", "pk": 6, "fields": {"name": "\u7ec4\u7ec7\u67b6\u6784", "icon": "zuzhi", "path": "organizations", "is_frame": false, "is_show": true, "sort": 15, "component": "system/organization/index", "pid": 1}},
+    {"model": "rbac.menu", "pk": 7, "fields": {"name": "\u5b66\u6821\u7ba1\u7406", "icon": "jichuguanli", "path": "school", "is_frame": false, "is_show": true, "sort": 2, "component": null, "pid": null}},
+    {"model": "rbac.menu", "pk": 8, "fields": {"name": "\u5b66\u6821\u4fe1\u606f\u7ba1\u7406", "icon": "log", "path": "schools", "is_frame": false, "is_show": true, "sort": 21, "component": "crm/school/index", "pid": 7}},
+    {"model": "rbac.menu", "pk": 9, "fields": {"name": "\u62db\u751f\u6279\u6b21\u7ba1\u7406", "icon": "log", "path": "grades", "is_frame": false, "is_show": true, "sort": 22, "component": "crm/grade/index", "pid": 7}},
+    {"model": "rbac.menu", "pk": 10, "fields": {"name": "\u57f9\u517b\u5c42\u6b21\u7ba1\u7406", "icon": "fabu", "path": "trainType", "is_frame": false, "is_show": true, "sort": 23, "component": "crm/trainType/index", "pid": 7}},
+    {"model": "rbac.menu", "pk": 11, "fields": {"name": "\u7ad9\u70b9\u7ba1\u7406", "icon": "zujian", "path": "site", "is_frame": false, "is_show": true, "sort": 3, "component": null, "pid": null}},
+    {"model": "rbac.menu", "pk": 12, "fields": {"name": "\u7ad9\u70b9\u4fe1\u606f\u7ba1\u7406", "icon": "log", "path": "sites", "is_frame": false, "is_show": true, "sort": 31, "component": "crm/site/index", "pid": 11}},
+    {"model": "rbac.menu", "pk": 13, "fields": {"name": "\u62db\u751f\u7ba1\u7406", "icon": "peoples", "path": "enroll", "is_frame": false, "is_show": true, "sort": 4, "component": null, "pid": null}},
+    {"model": "rbac.menu", "pk": 14, "fields": {"name": "\u62a5\u540d\u5b66\u751f\u7ba1\u7406", "icon": "chain", "path": "enrollStu", "is_frame": false, "is_show": true, "sort": 41, "component": "crm/enrollStu/index", "pid": 13}},
+    {"model": "rbac.menu", "pk": 15, "fields": {"name": "\u5f55\u53d6\u5b66\u751f\u7ba1\u7406", "icon": "chain", "path": "admitStu", "is_frame": false, "is_show": true, "sort": 42, "component": "crm/admitStu/index", "pid": 13}}
 ]
