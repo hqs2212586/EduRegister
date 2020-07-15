@@ -37,6 +37,7 @@ class SchoolInfo(TimeAbstract):
     class Meta:
         verbose_name = "学校表"
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.title
@@ -50,6 +51,7 @@ class SiteInfo(TimeAbstract):
     class Meta:
         verbose_name = "站点表"
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.title
@@ -62,6 +64,7 @@ class TrainTypeInfo(TimeAbstract):
     class Meta:
         verbose_name = "培养类型"
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.title
@@ -83,6 +86,7 @@ class GradeInfo(TimeAbstract):
     class Meta:
         verbose_name = "入学学年表"
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.title
@@ -119,6 +123,7 @@ class StudentInfo(TimeAbstract):
     class Meta:
         verbose_name = "学生表"
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.name
@@ -151,6 +156,7 @@ class AdmitStudentInfo(TimeAbstract):
     class Meta:
         verbose_name = "录取学生表"
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.xm
