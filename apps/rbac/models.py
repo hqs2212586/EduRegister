@@ -79,6 +79,7 @@ class UserProfile(AbstractUser):
     avatar = models.ImageField(upload_to="avatar/%Y-%m", default="avatar/default.png", verbose_name="头像")
     department = models.ForeignKey("Organization", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="部门")
     position = models.CharField(max_length=50, null=True, blank=True, verbose_name="职位")
+    # 与上级主管管理，因此是对自己关联
     superior = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="上级主管")
     roles = models.ManyToManyField("Role", verbose_name="角色", blank=True)
 

@@ -125,4 +125,3 @@ class RedisObj(object):
             return getattr(self.__conn, command)(*args)     # 重新组装方法调用
         
         return _
-    
