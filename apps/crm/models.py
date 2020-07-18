@@ -31,8 +31,8 @@ class TimeAbstract(models.Model):
 class SchoolInfo(TimeAbstract):
     """学校表"""
     title = models.CharField(verbose_name="院校", max_length=32, unique=True, help_text="必填")
-    logo = models.ImageField(verbose_name="LOGO",upload_to="school/upload/", default="school/default_logo.png", help_text="必填")
-    organization = models.ForeignKey(to=Organization, to_field="id", on_delete=models.CASCADE)
+    logo = models.ImageField(verbose_name="LOGO", upload_to="school/upload/", default="school/default_logo.png", help_text="必填")
+    organization = models.OneToOneField(to=Organization, to_field="id", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "学校表"
@@ -42,11 +42,12 @@ class SchoolInfo(TimeAbstract):
     def __str__(self):
         return self.title
 
+
 class SiteInfo(TimeAbstract):
     """站点表"""
     title = models.CharField(verbose_name="站点名称", max_length=32, help_text="必填", unique=True)
     schools = models.ForeignKey(to=SchoolInfo, to_field="id", on_delete=models.CASCADE)
-    organization = models.ForeignKey(to=Organization, to_field="id", on_delete=models.CASCADE)
+    organization = models.OneToOneField(to=Organization, to_field="id", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "站点表"
