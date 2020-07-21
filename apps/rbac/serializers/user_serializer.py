@@ -37,7 +37,6 @@ class UserModifySerializer(serializers.ModelSerializer):
         return mobile
 
 
-
 class UserCreateSerializer(serializers.ModelSerializer):
     """创建用户序列化"""
     username = serializers.CharField(required=True, allow_blank=False)
@@ -65,4 +64,4 @@ class UserInfoListSerializer(serializers.ModelSerializer):
     """公共users"""
     class Meta:
         model = UserProfile
-        fields = ('id','name','mobile','email','position')
+        fields = ('id', 'name', 'mobile', 'email', 'position')

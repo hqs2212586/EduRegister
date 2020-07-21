@@ -24,7 +24,7 @@ class OrganizationViewSet(ModelViewSet, TreeAPIView):
     serializer_class = OrganizationSerializer
     pagination_class = CommonPagination
     filter_backends = (SearchFilter, OrderingFilter)
-    search_fields = ('name')
+    search_fields = ('name',)
     ordering_fields = ('id',)
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (RbacPermission,)
