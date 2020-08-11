@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'utils.middleware.ApiLoggingMiddleware'          # 加入中间件ApiLoggingMiddleware
 ]
 
 # CORS跨域设置
@@ -180,51 +181,90 @@ REDIS_PASSWORD = None
 BASE_LOG_DIR = os.path.join(BASE_DIR, 'logs')
 
 LOGGING = {
-'version': 1,
-    'disable_existing_loggers': False,
+    'version': 1,
+    'disable_existing_loggers': False,       # 是否禁用所有已存在的日志器
+    # 日志信息显示格式
     'formatters': {
-        'standard': {
-            'format': '[%(asctime)s][%(levelname)s]''[%(filename)s:%(lineno)d][%(message)s]'
+        'standard': {     # 标准
+            # 时间日期-调用的函数名称-记录调用的行号-日志记录级别名称-记录的消息
+            'format': '%(asctime)s FuncName:%(funcName)s LINE:%(lineno)d [%(levelname)s]- %(message)s'
         },
-        'simple': {
-            'format': '[%(levelname)s][%(asctime)s]%(message)s'
+        'simple': {       # 简单
+            'format': '%(levelname)s %(message)s'     # 日志记录级别-记录的消息
         },
-
+        'verbose': {      # 详细
+            # 日志记录级别名称-时间日期-调用的模块名称-调用的函数名称-消息
+            'format': '%(levelname)s %(asctime)s %(module)s %(funcName)s %(message)s'
+        }
     },
+    # 过滤器
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    # 日志处理方法
     'handlers': {
-        'default': {
+        'console': {              # 打印到控制台方式
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+        'default': {              # 默认方式
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_LOG_DIR, "info_sys.log"),
-            'maxBytes': 1024 * 1024 * 50,
-            'backupCount': 3,
-            'formatter': 'simple',
-            'encoding': 'utf-8',
-        },
-        'error': {
-            'level': 'ERROR',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_LOG_DIR, "err_sys.log"),
-            'backupCount': 5,
+            'filename': os.path.join(BASE_LOG_DIR, "info.log"),
+            'maxBytes': 1024 * 1024 * 50,     # 50MB
+            'backupCount': 2,
             'formatter': 'standard',
             'encoding': 'utf-8',
+        },
+        'default_debug': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_LOG_DIR, 'debug.log'),
+            'maxBytes': 1024 * 1024 * 50,     # 50MB
+            'backupCount': 2,
+            'formatter': 'standard',
+        },
+        'request_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_LOG_DIR, 'common.log'),
+            'maxBytes': 1024 * 1024 * 50,      # 50MB
+            'backupCount': 2,
+            'formatter': 'standard',   # 标准
+        },
+        'restful_api': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_LOG_DIR, 'api.log'),
+            'maxBytes': 1024 * 1024 * 50,
+            'backupCount': 2,
+            'formatter': 'verbose',     # 详细
         }
-
     },
+    # 日志器
     'loggers': {
-        'info': {
-            'handlers': ['default'],
+        'django': {
+            'handlers': ['console', 'default_debug'],
             'level': 'INFO',
-            'propagate': True,
+            'propagate': False
         },
-        'warn':{
-            'handlers': ['default'],
-            'level': 'WARNING',
-            'propagate': True,
+        'django.request': {
+            'handlers': ['request_handler'],
+            'level': 'INFO',
+            'propagate': False
         },
-        'error': {
-            'handlers': ['error'],
-            'level': 'ERROR',
-        }
+        'common': {
+            'handlers': ['default', 'console'],
+            'level': 'INFO',
+            'propagate': True
+        },
+        'api': {
+            'handlers': ['restful_api'],
+            'level': 'INFO',
+            'propagate': True
+        },
     }
 }
