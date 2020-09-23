@@ -6,7 +6,7 @@ from ..models import AdmitStudentInfo
 
 
 class AdmitStudentInfoSerializer(serializers.ModelSerializer):
-    """学校信息序列化"""
+    """录取学生信息序列化"""
 
     class Meta:
         model = AdmitStudentInfo
@@ -14,7 +14,7 @@ class AdmitStudentInfoSerializer(serializers.ModelSerializer):
 
 
 class AdmitStudentListSerializer(serializers.ModelSerializer):
-    """学校列表序列化"""
+    """录取学生列表序列化"""
 
     class Meta:
         model = AdmitStudentInfo
