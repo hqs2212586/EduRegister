@@ -1,5 +1,10 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Qiushi Huang'
+"""
+null=True：数据库创建时该字段可不填，用NULL填充
+blank=True：创建数据库记录时该字段可传空白
+unique=True：这个数据字段的值在整张表中必须是唯一的
+"""
 
 from datetime import datetime
 from django.db import models
@@ -10,12 +15,6 @@ from rbac.models import Organization
 __all__ = ["SchoolInfo", "SiteInfo", "TrainTypeInfo", "GradeInfo", "StudentInfo", "AdmitStudentInfo"]
 
 
-"""
-null=True：数据库创建时该字段可不填，用NULL填充
-blank=True：创建数据库记录时该字段可传空白
-unique=True：这个数据字段的值在整张表中必须是唯一的
-"""
-
 class TimeAbstract(models.Model):
     add_time = models.DateTimeField(auto_now_add=True, verbose_name="添加时间")
     modify_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
@@ -23,10 +22,6 @@ class TimeAbstract(models.Model):
     class Meta:
         abstract = True
 
-
-# def upload_to(instance, filename):
-#     """让上传的文件路径动态与模块名有关"""
-#     return '/'.join([MEDIA_ROOT, instance.title, filename])
 
 class SchoolInfo(TimeAbstract):
     """学校表"""
@@ -91,6 +86,7 @@ class GradeInfo(TimeAbstract):
 
     def __str__(self):
         return self.title
+
 
 class StudentInfo(TimeAbstract):
     """报名学生表"""

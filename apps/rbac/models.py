@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 __all__ = ["Menu", "Permission", "Role", "Organization", "UserProfile"]
 
+
 class Menu(models.Model):
     """菜单"""
     name = models.CharField(max_length=30, unique=True, verbose_name="菜单名")

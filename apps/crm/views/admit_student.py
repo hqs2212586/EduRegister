@@ -8,7 +8,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from utils.custom import CommonPagination, RbacPermission
-from ..serializers.student_serializer import StudentInfoSerializer, StudentListSerializer
+from ..serializers.admit_student_serializer import AdmitStudentInfoSerializer, AdmitStudentListSerializer
 from ..models import AdmitStudentInfo
 
 
@@ -18,7 +18,7 @@ class AdmitStudentInfoViewSet(ModelViewSet):
         {'*': 'admin'}, {'*': 'admitstu_all'}, {'get': 'admitstu_list'}, {'post': 'admitstu_create'},
         {'put': 'admitstu_edit'}, {'delete': 'admitstu_delete'})
     queryset = AdmitStudentInfo.objects.all()
-    serializer_class = StudentInfoSerializer
+    serializer_class = AdmitStudentInfoSerializer
     pagination_class = CommonPagination
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filter_fields = ('xm',)
@@ -31,7 +31,7 @@ class AdmitStudentInfoViewSet(ModelViewSet):
 class AdmitStudentListView(ListAPIView):
     """录取学生列表视图"""
     queryset = AdmitStudentInfo.objects.all()
-    serializer_class = StudentListSerializer
+    serializer_class = AdmitStudentListSerializer
     filter_backends = (DjangoFilterBackend, OrderingFilter)
     filter_fields = ('xm',)
     ordering_fields = ('id', )

@@ -222,6 +222,7 @@ CREATE DATABASE eduRegister DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 
 5、执行创建表信息
+为我们的代码段模型创建初始迁移（initial migration），并首次同步数据库（migrate）
 
 ```
 python3 manage.py makemigrations rbac
