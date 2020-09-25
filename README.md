@@ -170,11 +170,11 @@ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer 
 
 echo 'export PATH="/$HOME/.pyenv/bin:$PATH"'>> ~/.bash_profile
 echo 'eval "$(pyenv init -)"' >> ~/.bash_profile 
-echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bash_profile 
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bash_profile
 pyenv install 3.6.8 -v
-pyenv virtualenv 3.6.8 rest_xops
+pyenv virtualenv 3.6.8 EduRegister
 cd 你的项目路径
-pyenv local rest_xops
+pyenv local EduRegister
 ```
 
 2、安装项目运行模块
@@ -183,12 +183,12 @@ pip install -r requirements.txt
 ```
 3、修改配置
 ```
-vi rest_xops/settings.py 
+vi EduRegister/settings.py 
 # 修改数据库
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rest_xops',
+        'NAME': 'EduRegister',
         'HOST': '127.0.0.1',
         'USER': 'root',
         'PASSWORD': '123456',
